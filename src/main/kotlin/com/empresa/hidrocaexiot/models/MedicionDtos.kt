@@ -8,7 +8,8 @@ data class MedicionRequest(
     val distanciaSensorCm: Double,
     val bateria: Int? = null,
     val rssi: Int? = null,
-    val snr: Double? = null
+    val snr: Double? = null,
+    val timestamp: String? = null
 )
 
 @Serializable

@@ -2,7 +2,9 @@ package com.empresa.hidrocaexiot
 
 import com.empresa.hidrocaexiot.routes.dashboardRoutes
 import com.empresa.hidrocaexiot.routes.depositoRoutes
+import com.empresa.hidrocaexiot.routes.devRoutes
 import com.empresa.hidrocaexiot.routes.historicoRoutes
+import com.empresa.hidrocaexiot.routes.ingestaRoutes
 import com.empresa.hidrocaexiot.routes.medicionRoutes
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -20,5 +22,7 @@ fun Application.configureRouting() {
         medicionRoutes()
         dashboardRoutes()
         historicoRoutes()
+        ingestaRoutes()
+        devRoutes()
     }
 }

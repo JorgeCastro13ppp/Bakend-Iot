@@ -12,5 +12,21 @@ services:
     volumes:
       - hidrocaex_postgres_data:/var/lib/postgresql/data
 
+  backend:
+    build: .
+    container_name: hidrocaex-backend
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: hidrocaex_iot
+      DB_USER: postgres
+      DB_PASSWORD: toor
+      API_KEY: clave-desarrollo-node-red
+    ports:
+      - "8080:8080"
+
 volumes:
   hidrocaex_postgres_data:

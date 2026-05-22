@@ -4,13 +4,17 @@ import com.empresa.hidrocaexiot.database.repositories.HistoricoRepository
 import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import java.time.Instant
 
 fun Route.historicoRoutes() {
 
     route("/historico") {
 
         get("/general") {
-            val historico = HistoricoRepository.obtenerHistoricoGeneral()
+            val desde = call.request.queryParameters["desde"]?.let { Instant.parse(it) }
+            val hasta = call.request.queryParameters["hasta"]?.let { Instant.parse(it) }
+
+            val historico = HistoricoRepository.obtenerHistoricoGeneral(desde, hasta)
             call.respond(HttpStatusCode.OK, historico)
         }
 
@@ -22,7 +26,14 @@ fun Route.historicoRoutes() {
                 return@get
             }
 
-            val historico = HistoricoRepository.obtenerHistoricoDeposito(depositoId)
+            val desde = call.request.queryParameters["desde"]?.let { Instant.parse(it) }
+            val hasta = call.request.queryParameters["hasta"]?.let { Instant.parse(it) }
+
+            val historico = HistoricoRepository.obtenerHistoricoDeposito(
+                depositoId = depositoId,
+                desde = desde,
+                hasta = hasta
+            )
 
             if (historico == null) {
                 call.respond(HttpStatusCode.NotFound, "Depósito no encontrado")
