@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: hidrocaex-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: hidrocaex_iot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: toor
+    ports:
+      - "5433:5432"
+    volumes:
+      - hidrocaex_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  hidrocaex_postgres_data:
