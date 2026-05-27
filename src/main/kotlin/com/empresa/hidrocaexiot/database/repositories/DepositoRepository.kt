@@ -8,11 +8,13 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
+
 object DepositoRepository {
 
     fun crear(request: DepositoRequest): DepositoResponse = transaction {
         val insertStatement = DepositosTable.insert {
             it[nombre] = request.nombre
+            it[deviceEui] = request.deviceEui?.uppercase()
             it[alturaCm] = request.alturaCm
             it[largoCm] = request.largoCm
             it[anchoCm] = request.anchoCm
@@ -24,9 +26,9 @@ object DepositoRepository {
         }
 
         val id = insertStatement[DepositosTable.id]
-
         obtenerPorId(id)!!
     }
+
     fun obtenerTodos(): List<DepositoResponse> = transaction {
         DepositosTable
             .selectAll()
@@ -37,6 +39,14 @@ object DepositoRepository {
         DepositosTable
             .selectAll()
             .where { DepositosTable.id eq id }
+            .map { it.toDepositoResponse() }
+            .singleOrNull()
+    }
+
+    fun obtenerPorDeviceEui(deviceEui: String): DepositoResponse? = transaction {
+        DepositosTable
+            .selectAll()
+            .where { DepositosTable.deviceEui eq deviceEui.uppercase() }
             .map { it.toDepositoResponse() }
             .singleOrNull()
     }
@@ -53,6 +63,7 @@ object DepositoRepository {
     fun actualizar(id: Int, request: DepositoUpdateRequest): DepositoResponse? = transaction {
         val filasActualizadas = DepositosTable.update({ DepositosTable.id eq id }) {
             it[nombre] = request.nombre
+            it[deviceEui] = request.deviceEui?.uppercase()
             it[alturaCm] = request.alturaCm
             it[largoCm] = request.largoCm
             it[anchoCm] = request.anchoCm
@@ -63,17 +74,14 @@ object DepositoRepository {
             it[margenMaximoCriticoCm] = request.margenMaximoCriticoCm
         }
 
-        if (filasActualizadas == 0) {
-            null
-        } else {
-            obtenerPorId(id)
-        }
+        if (filasActualizadas == 0) null else obtenerPorId(id)
     }
 
     private fun ResultRow.toDepositoResponse(): DepositoResponse {
         return DepositoResponse(
             id = this[DepositosTable.id],
             nombre = this[DepositosTable.nombre],
+            deviceEui = this[DepositosTable.deviceEui],
             alturaCm = this[DepositosTable.alturaCm],
             largoCm = this[DepositosTable.largoCm],
             anchoCm = this[DepositosTable.anchoCm],

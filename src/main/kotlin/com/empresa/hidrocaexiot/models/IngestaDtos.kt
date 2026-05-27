@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class IngestaMedicionRequest(
-    val depositoId: Int,
-    val distanciaSensorCm: Double,
-    val bateria: Int? = null,
+    val deviceEui: String,
+    val distance: Double,
+    val battery: Int? = null,
     val rssi: Int? = null,
     val snr: Double? = null
 )

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.ServerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-27T08:43:09.679Z" hostname="DESKTOP-3OPL8HR" time="1.197">
+  <properties/>
+  <testcase name="test root endpoint" classname="com.example.ServerTest" time="1.197"/>
+  <system-out><![CDATA[2026-05-27 10:43:10.374 [DefaultDispatcher-worker-1 @call-context#3] INFO  io.ktor.test - No ktor.deployment.watch patterns specified, automatic reload is not active.
+2026-05-27 10:43:10.433 [DefaultDispatcher-worker-1 @coroutine#4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-27 10:43:10.614 [DefaultDispatcher-worker-1 @coroutine#4] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1d5b008c
+2026-05-27 10:43:10.616 [DefaultDispatcher-worker-1 @coroutine#4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-27 10:43:10.797 [DefaultDispatcher-worker-1 @call-context#3] INFO  io.ktor.test - Application started in 0.436 seconds.
+2026-05-27 10:43:10.799 [DefaultDispatcher-worker-2 @coroutine#5] INFO  io.ktor.test - Responding at http://localhost:80
+2026-05-27 10:43:10.800 [DefaultDispatcher-worker-2 @coroutine#5] INFO  io.ktor.test - Responding at https://localhost:443
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

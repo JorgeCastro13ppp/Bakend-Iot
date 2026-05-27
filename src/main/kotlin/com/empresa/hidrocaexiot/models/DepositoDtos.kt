@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DepositoRequest(
     val nombre: String,
+    val deviceEui: String? = null,
     val alturaCm: Double,
     val largoCm: Double,
     val anchoCm: Double,
@@ -19,6 +20,7 @@ data class DepositoRequest(
 data class DepositoResponse(
     val id: Int,
     val nombre: String,
+    val deviceEui: String?,
     val alturaCm: Double,
     val largoCm: Double,
     val anchoCm: Double,
@@ -31,6 +33,7 @@ data class DepositoResponse(
 @Serializable
 data class DepositoUpdateRequest(
     val nombre: String,
+    val deviceEui: String? = null,
     val alturaCm: Double,
     val largoCm: Double,
     val anchoCm: Double,

@@ -26,7 +26,7 @@ services:
       DB_PASSWORD: toor
       API_KEY: clave-desarrollo-node-red
     ports:
-      - "8080:8080"
+      - "8080:8081"
 
 volumes:
   hidrocaex_postgres_data:

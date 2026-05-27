@@ -6,4 +6,4 @@ ktor:
       - com.empresa.hidrocaexiot.ApplicationKt.module
 
 app:
-  apiKey: "$API_KEY"
+  apiKey: "clave-desarrollo-node-red"

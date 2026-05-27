@@ -1,5 +1,6 @@
 package com.empresa.hidrocaexiot.routes
 
+import com.empresa.hidrocaexiot.database.repositories.DepositoRepository
 import com.empresa.hidrocaexiot.database.repositories.MedicionRepository
 import com.empresa.hidrocaexiot.models.IngestaMedicionRequest
 import com.empresa.hidrocaexiot.models.MedicionRequest
@@ -27,10 +28,22 @@ fun Route.ingestaRoutes() {
 
             val request = call.receive<IngestaMedicionRequest>()
 
+            val deposito = DepositoRepository.obtenerPorDeviceEui(request.deviceEui)
+
+            if (deposito == null) {
+                call.respond(
+                    HttpStatusCode.NotFound,
+                    "No existe ningún depósito asociado al sensor ${request.deviceEui}"
+                )
+                return@post
+            }
+
+            val distanciaSensorCm = request.distance / 10.0
+
             val medicionRequest = MedicionRequest(
-                depositoId = request.depositoId,
-                distanciaSensorCm = request.distanciaSensorCm,
-                bateria = request.bateria,
+                depositoId = deposito.id,
+                distanciaSensorCm = distanciaSensorCm,
+                bateria = request.battery,
                 rssi = request.rssi,
                 snr = request.snr
             )
@@ -43,6 +56,19 @@ fun Route.ingestaRoutes() {
             }
 
             call.respond(HttpStatusCode.Created, medicion)
+        }
+
+        post("/debug") {
+            val rawBody = call.receiveText()
+
+            println("DEBUG INGESTA BODY:")
+            println(rawBody)
+
+            call.respondText(
+                text = rawBody,
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.OK
+            )
         }
     }
 }
