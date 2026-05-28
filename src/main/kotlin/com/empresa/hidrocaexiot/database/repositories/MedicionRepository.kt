@@ -57,6 +57,11 @@ object MedicionRepository {
             it[rssi] = request.rssi
             it[snr] = request.snr
             it[timestamp] = now
+            it[deviceEui] = request.deviceEui
+            it[deviceName] = request.deviceName
+            it[gatewayTime] = request.gatewayTime
+            it[radarSignalRssi] = request.radarSignalRssi
+            it[position] = request.position
         }
 
         val id = insertStatement[MedicionesTable.id]
@@ -147,7 +152,12 @@ object MedicionRepository {
             bateria = this[MedicionesTable.bateria],
             rssi = this[MedicionesTable.rssi],
             snr = this[MedicionesTable.snr],
-            timestamp = this[MedicionesTable.timestamp].toString()
+            timestamp = this[MedicionesTable.timestamp].toString(),
+            deviceEui = this[MedicionesTable.deviceEui],
+            deviceName = this[MedicionesTable.deviceName],
+            gatewayTime = this[MedicionesTable.gatewayTime],
+            radarSignalRssi = this[MedicionesTable.radarSignalRssi],
+            position = this[MedicionesTable.position]
         )
     }
 }

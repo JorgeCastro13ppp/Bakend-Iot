@@ -17,6 +17,12 @@ object MedicionesTable : Table("mediciones") {
     val rssi = integer("rssi").nullable()
     val snr = double("snr").nullable()
 
+    val deviceEui = varchar("device_eui", 32).nullable()
+    val deviceName = varchar("device_name", 100).nullable()
+    val gatewayTime = varchar("gateway_time", 100).nullable()
+    val radarSignalRssi = double("radar_signal_rssi").nullable()
+    val position = integer("position").nullable()
+
     val timestamp = timestamp("timestamp")
 
     override val primaryKey = PrimaryKey(id)

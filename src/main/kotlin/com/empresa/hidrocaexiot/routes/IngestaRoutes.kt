@@ -5,7 +5,6 @@ import com.empresa.hidrocaexiot.database.repositories.MedicionRepository
 import com.empresa.hidrocaexiot.models.IngestaMedicionRequest
 import com.empresa.hidrocaexiot.models.MedicionRequest
 import io.ktor.http.*
-import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -14,7 +13,41 @@ fun Route.ingestaRoutes() {
 
     route("/ingesta") {
 
+        post("/debug") {
+            val rawBody = call.receiveText()
+
+            println("========== DEBUG INGESTA ==========")
+            println("METHOD: ${call.request.httpMethod.value}")
+            println("URI: ${call.request.uri}")
+            println("HEADERS:")
+            call.request.headers.forEach { name, values ->
+                println("$name: $values")
+            }
+            println("BODY:")
+            println(rawBody)
+            println("===================================")
+
+            call.respondText(
+                text = rawBody.ifBlank { """{"message":"Body vacío recibido"}""" },
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.OK
+            )
+        }
+
         post("/medicion") {
+            val rawBody = call.receiveText()
+
+            println("========== INGESTA MEDICION ==========")
+            println("METHOD: ${call.request.httpMethod.value}")
+            println("URI: ${call.request.uri}")
+            println("HEADERS:")
+            call.request.headers.forEach { name, values ->
+                println("$name: $values")
+            }
+            println("BODY:")
+            println(rawBody)
+            println("======================================")
+
             val expectedApiKey = call.application.environment.config
                 .propertyOrNull("app.apiKey")
                 ?.getString()
@@ -26,14 +59,21 @@ fun Route.ingestaRoutes() {
                 return@post
             }
 
-            val request = call.receive<IngestaMedicionRequest>()
+            if (rawBody.isBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Body vacío")
+                return@post
+            }
 
-            val deposito = DepositoRepository.obtenerPorDeviceEui(request.deviceEui)
+            val request = kotlinx.serialization.json.Json {
+                ignoreUnknownKeys = true
+            }.decodeFromString<IngestaMedicionRequest>(rawBody)
+
+            val deposito = DepositoRepository.obtenerPorDeviceEui(request.devEUI)
 
             if (deposito == null) {
                 call.respond(
                     HttpStatusCode.NotFound,
-                    "No existe ningún depósito asociado al sensor ${request.deviceEui}"
+                    "No existe ningún depósito asociado al sensor ${request.devEUI}"
                 )
                 return@post
             }
@@ -45,7 +85,12 @@ fun Route.ingestaRoutes() {
                 distanciaSensorCm = distanciaSensorCm,
                 bateria = request.battery,
                 rssi = request.rssi,
-                snr = request.snr
+                snr = request.snr,
+                deviceEui = request.devEUI,
+                deviceName = request.deviceName,
+                gatewayTime = request.gatewayTime,
+                radarSignalRssi = request.radar_signal_rssi,
+                position = request.position
             )
 
             val medicion = MedicionRepository.crear(medicionRequest)
@@ -56,19 +101,6 @@ fun Route.ingestaRoutes() {
             }
 
             call.respond(HttpStatusCode.Created, medicion)
-        }
-
-        post("/debug") {
-            val rawBody = call.receiveText()
-
-            println("DEBUG INGESTA BODY:")
-            println(rawBody)
-
-            call.respondText(
-                text = rawBody,
-                contentType = ContentType.Application.Json,
-                status = HttpStatusCode.OK
-            )
         }
     }
 }

@@ -9,7 +9,13 @@ data class MedicionRequest(
     val bateria: Int? = null,
     val rssi: Int? = null,
     val snr: Double? = null,
-    val timestamp: String? = null
+    val timestamp: String? = null,
+
+    val deviceEui: String? = null,
+    val deviceName: String? = null,
+    val gatewayTime: String? = null,
+    val radarSignalRssi: Double? = null,
+    val position: Int? = null
 )
 
 @Serializable
@@ -24,5 +30,10 @@ data class MedicionResponse(
     val bateria: Int?,
     val rssi: Int?,
     val snr: Double?,
-    val timestamp: String
+    val timestamp: String,
+    val deviceEui: String? = null,
+    val deviceName: String? = null,
+    val gatewayTime: String? = null,
+    val radarSignalRssi: Double? = null,
+    val position: Int? = null
 )
