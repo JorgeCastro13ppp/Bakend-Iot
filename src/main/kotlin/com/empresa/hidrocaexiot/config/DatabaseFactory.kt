@@ -2,6 +2,7 @@ package com.empresa.hidrocaexiot.config
 
 import com.empresa.hidrocaexiot.database.tables.DepositosTable
 import com.empresa.hidrocaexiot.database.tables.MedicionesTable
+import com.empresa.hidrocaexiot.database.tables.UsuariosTable
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
@@ -30,7 +31,7 @@ object DatabaseFactory {
 
         Database.connect(HikariDataSource(config))
         transaction {
-            SchemaUtils.create(DepositosTable, MedicionesTable)
+            SchemaUtils.create(DepositosTable, MedicionesTable, UsuariosTable)
         }
     }
 }
