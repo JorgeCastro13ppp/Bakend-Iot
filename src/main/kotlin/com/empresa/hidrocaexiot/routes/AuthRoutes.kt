@@ -1,6 +1,7 @@
 package com.empresa.hidrocaexiot.routes
 
 import com.empresa.hidrocaexiot.models.LoginRequest
+import com.empresa.hidrocaexiot.models.UsuarioActualResponse
 import com.empresa.hidrocaexiot.models.UsuarioCreateRequest
 import com.empresa.hidrocaexiot.services.AuthService
 import io.ktor.http.*
@@ -50,16 +51,16 @@ fun Route.authRoutes() {
                         )
 
                 call.respond(
-                    mapOf(
-                        "userId" to principal.payload
+                    UsuarioActualResponse(
+                        userId = principal.payload
                             .getClaim("userId")
                             .asInt(),
 
-                        "email" to principal.payload
+                        email = principal.payload
                             .getClaim("email")
                             .asString(),
 
-                        "rol" to principal.payload
+                        rol = principal.payload
                             .getClaim("rol")
                             .asString()
                     )
