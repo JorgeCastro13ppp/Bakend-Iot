@@ -33,11 +33,11 @@ object MedicionRepository {
             alturaDepositoCm = deposito.alturaCm
         )
 
-        val litros = NivelService.calcularLitros(
-            largoCm = deposito.largoCm,
-            anchoCm = deposito.anchoCm,
-            alturaAguaCm = alturaAguaCm
-        )
+        val litros =
+            NivelService.calcularLitros(
+                deposito.capacidadLitros,
+                porcentaje
+            )
 
         val estado = NivelService.calcularEstado(
             deposito = deposito,

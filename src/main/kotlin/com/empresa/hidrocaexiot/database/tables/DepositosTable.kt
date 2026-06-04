@@ -3,12 +3,18 @@ package com.empresa.hidrocaexiot.database.tables
 import org.jetbrains.exposed.sql.Table
 
 object DepositosTable : Table("depositos") {
+
     val id = integer("id").autoIncrement()
     val nombre = varchar("nombre", 100)
 
-    val deviceEui = varchar("device_eui", 32).nullable().uniqueIndex()
+    val deviceEui = varchar("device_eui", 32)
+        .nullable()
+        .uniqueIndex()
 
     val alturaCm = double("altura_cm")
+
+    val capacidadLitros = double("capacidad_litros")
+
     val largoCm = double("largo_cm")
     val anchoCm = double("ancho_cm")
     val offsetSensorCm = double("offset_sensor_cm").default(0.0)

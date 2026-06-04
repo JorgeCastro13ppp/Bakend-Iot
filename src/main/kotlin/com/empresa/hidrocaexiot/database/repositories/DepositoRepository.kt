@@ -16,6 +16,7 @@ object DepositoRepository {
             it[nombre] = request.nombre
             it[deviceEui] = request.deviceEui?.uppercase()
             it[alturaCm] = request.alturaCm
+            it[capacidadLitros] = request.capacidadLitros
             it[largoCm] = request.largoCm
             it[anchoCm] = request.anchoCm
             it[offsetSensorCm] = request.offsetSensorCm
@@ -65,6 +66,7 @@ object DepositoRepository {
             it[nombre] = request.nombre
             it[deviceEui] = request.deviceEui?.uppercase()
             it[alturaCm] = request.alturaCm
+            it[capacidadLitros] = request.capacidadLitros
             it[largoCm] = request.largoCm
             it[anchoCm] = request.anchoCm
             it[offsetSensorCm] = request.offsetSensorCm
@@ -83,6 +85,8 @@ object DepositoRepository {
             nombre = this[DepositosTable.nombre],
             deviceEui = this[DepositosTable.deviceEui],
             alturaCm = this[DepositosTable.alturaCm],
+            capacidadLitros =
+                this[DepositosTable.capacidadLitros],
             largoCm = this[DepositosTable.largoCm],
             anchoCm = this[DepositosTable.anchoCm],
             offsetSensorCm = this[DepositosTable.offsetSensorCm],

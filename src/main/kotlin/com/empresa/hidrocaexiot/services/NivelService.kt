@@ -24,11 +24,11 @@ object NivelService {
     }
 
     fun calcularLitros(
-        largoCm: Double,
-        anchoCm: Double,
-        alturaAguaCm: Double
+        capacidadLitros: Double,
+        porcentaje: Double
     ): Double {
-        return (largoCm * anchoCm * alturaAguaCm) / 1000.0
+
+        return capacidadLitros * porcentaje / 100.0
     }
 
     fun calcularEstado(
